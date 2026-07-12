@@ -1,0 +1,15 @@
+# Use the official NGINX image
+FROM nginx:latest
+
+# Remove the default NGINX website
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy website files to the NGINX web root
+COPY . /usr/share/nginx/html
+
+# Expose HTTP port
+EXPOSE 80
+
+# Start NGINX in the foreground
+CMD ["nginx", "-g", "daemon off;"]
+
