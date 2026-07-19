@@ -2,7 +2,7 @@ provider "aws" {
   region = var.region
 }
 
-resource "aws_instance" "ec2" {
+resource "aws_instance" "dev" {
   count = var.instance_count
 
   ami                    = var.ami_id
@@ -26,6 +26,7 @@ variable "region" {
 variable "ami_id" {
   description = "AMI ID"
   type        = string
+  default     = "ami-11aa22bb33cc44dd"
 }
 
 variable "instance_type" {
@@ -50,10 +51,10 @@ variable "environment" {
 
 
 output "instance_ids" {
-  value = aws_instance.ec2[*].id
+  value = aws_instance.dev[*].id
 }
 
 output "public_ips" {
-  value = aws_instance.ec2[*].public_ip
+  value = aws_instance.dev[*].public_ip
 }
 
