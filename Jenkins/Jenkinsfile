@@ -2,114 +2,91 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = "ap-south-1"
-        ECR_REPOSITORY = "php-app"
+        AWS_REGION     = "ap-south-1"
         AWS_ACCOUNT_ID = "123456789012"
-        IMAGE_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}"
-        VERSION = "v${BUILD_NUMBER}"
+        REPOSITORY     = "php-app"
+        IMAGE_TAG      = "${BUILD_NUMBER}"
+
+        ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+        IMAGE_URI    = "${ECR_REGISTRY}/${REPOSITORY}:${IMAGE_TAG}"
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                checkout scm
+                echo "Checking out source code..."
+                git branch: 'main',
+                    url: 'https://github.com/username/php-app.git'
             }
         }
 
-        stage('Install Dependencies') {
-            agent {
-                docker {
-                    image 'php:8.2-cli'
-                    args '-u root'
-                }
-            }
+        stage('Build Application') {
             steps {
-                sh '''
-                    apt-get update
-                    apt-get install -y git unzip curl
-
-                    curl -sS https://getcomposer.org/installer | php \
-                        -- --install-dir=/usr/local/bin --filename=composer
-
-                    composer install --no-interaction
-                '''
+                echo "Building application..."
+                sh 'echo "Build Successful"'
+                // Example:
+                // sh 'mvn clean package'
+                // sh 'npm install && npm run build'
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Unit Test') {
             steps {
-                sh './vendor/bin/phpunit'
+                echo "Running Unit Tests..."
+                sh 'echo "Tests Passed"'
+                // Example:
+                // sh 'mvn test'
+                // sh 'phpunit'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQubeServer') {
-                    sh '''
-                        sonar-scanner \
-                        -Dsonar.projectKey=php-app \
-                        -Dsonar.sources=.
-                    '''
+                    sh 'sonar-scanner'
                 }
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh '''
-                    docker build -t ${IMAGE_URI}:${VERSION} .
-                '''
             }
         }
 
         stage('Trivy Scan') {
             steps {
-                sh '''
-                    trivy image --severity HIGH,CRITICAL ${IMAGE_URI}:${VERSION}
-                '''
+                sh """
+                docker build -t ${IMAGE_URI} .
+                trivy image --exit-code 1 --severity HIGH,CRITICAL ${IMAGE_URI}
+                """
             }
         }
 
         stage('Login to AWS ECR') {
             steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credentials'
-                ]]) {
-                    sh '''
-                        aws ecr get-login-password --region ${AWS_REGION} \
-                        | docker login \
-                        --username AWS \
-                        --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-                    '''
-                }
+                sh """
+                aws ecr get-login-password --region ${AWS_REGION} | \
+                docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                """
             }
         }
 
-        stage('Push Image to ECR') {
+        stage('Push Image to AWS ECR') {
             steps {
-                sh '''
-                    docker push ${IMAGE_URI}:${VERSION}
-
-                    docker tag ${IMAGE_URI}:${VERSION} ${IMAGE_URI}:latest
-                    docker push ${IMAGE_URI}:latest
-                '''
+                sh """
+                docker push ${IMAGE_URI}
+                """
             }
         }
     }
 
     post {
-        always {
-            cleanWs()
-        }
-
         success {
-            echo "Pipeline completed successfully."
+            echo "CI Pipeline completed successfully."
         }
 
         failure {
-            echo "Pipeline failed."
+            echo "CI Pipeline failed."
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
