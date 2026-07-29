@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION     = "ap-south-1"
         AWS_ACCOUNT_ID = "123456789012"
-        REPOSITORY     = "php-app"
+        REPOSITORY     = "dev-app"
         IMAGE_TAG      = "${BUILD_NUMBER}"
 
         ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
@@ -15,15 +15,15 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo "Checking out source code..."
+                echo "Checking out source code"
                 git branch: 'main',
-                    url: 'https://github.com/username/php-app.git'
+                    url: 'https://github.com/username/dev-app.git'
             }
         }
 
         stage('Build Application') {
             steps {
-                echo "Building application..."
+                echo "Building application"
                 sh 'echo "Build Successful"'
                 // Example:
                 // sh 'mvn clean package'
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Unit Test') {
             steps {
-                echo "Running Unit Tests..."
+                echo "Running Unit Tests"
                 sh 'echo "Tests Passed"'
                 // Example:
                 // sh 'mvn test'
