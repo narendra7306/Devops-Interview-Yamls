@@ -21,9 +21,9 @@ while True:
 
     # Check if CPU usage exceeds the threshold
     if cpu_usage >= THRESHOLD:
-        print("🚨 ALERT: CPU utilization has reached or exceeded 80%!")
+        print("ALERT: CPU utilization has reached or exceeded 80%!")
     else:
-        print("✅ CPU utilization is within the normal range.")
+        print("CPU utilization is within the normal range.")
 
     print("-" * 40)
 
