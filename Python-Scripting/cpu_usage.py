@@ -25,7 +25,6 @@ while True:
     else:
         print("CPU utilization is within the normal range.")
 
-    print("-" * 40)
 
     # Wait 5 seconds before checking again
     time.sleep(5)
