@@ -10,8 +10,7 @@ logical_cpu = psutil.cpu_count()
 
 print(f"Physical CPUs : {physical_cpu}")
 print(f"Logical CPUs  : {logical_cpu}")
-print(f"Monitoring CPU usage...")
-print("=" * 40)
+
 
 # Continuously monitor CPU usage
 while True:
