@@ -7,8 +7,8 @@ memory = psutil.virtual_memory()
 gb = 1024 ** 3
 
 print(f"Total Memory     : {memory.total / gb:.2f} GB")
-print(f"Available Memory : {memory.available / gb:.2f} GB")
 print(f"Used Memory      : {memory.used / gb:.2f} GB")
+print(f"Available Memory : {memory.available / gb:.2f} GB")
 print(f"Memory Usage     : {memory.percent}%")
 
 
