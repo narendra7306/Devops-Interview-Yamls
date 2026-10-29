@@ -3,20 +3,26 @@
 
 import os
 
-directory = "/home/user/logs"
+directory = "/home/seelam/dev"
 
-largest_file = None
+print(directory)
+
+largest_file = ""
 largest_size = 0
 
-for file in os.listdir(directory):
+files = os.listdir(directory)
+
+for file in files:
     file_path = os.path.join(directory, file)
+    print(file_path)
 
     if os.path.isfile(file_path):
-        size = os.path.getsize(file_path)
+        file_size = os.path.getsize(file_path)
+        print(file_size)
 
-        if size > largest_size:
-            largest_size = size
-            largest_file = file_path
-
+        if file_size > largest_size:
+            largest_size = file_size
+            largest_file = file
 print("Largest file:", largest_file)
 print("File size:", largest_size, "bytes")
+
