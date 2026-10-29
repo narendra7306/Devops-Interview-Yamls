@@ -1,3 +1,5 @@
+How do you read a log file and find ERROR messages?
+
 log_file = "application.log"
 
 with open(log_file, "r") as file:
