@@ -22,3 +22,4 @@ except docker.errors.NotFound:
 
 except docker.errors.DockerException as e:
     print("Docker error:", e)
+
