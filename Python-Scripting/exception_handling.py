@@ -12,4 +12,3 @@ except PermissionError:
     print("Permission denied to access the log file")
 
     
-    
