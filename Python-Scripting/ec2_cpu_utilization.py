@@ -1,6 +1,7 @@
 # script to identify EC2 instances with CPU utilization greater than 80%
 
 import boto3
+import datetime
 
 # Create EC2 client
 ec2_client = boto3.client(
