@@ -1,16 +1,12 @@
-# python script to list IAM users of AWS account
 
 import boto3
 
-# Connect to AWS IAM
-iam_client = boto3.client(
-    'iam',
-    region_name='ap-south-1'
-)
+# Connect to IAM
+iam = boto3.client('iam')
 
-# List IAM users
-response = iam_client.list_users()
+# Get IAM users
+users = iam.list_users()
 
-for user in response['Users']:
+# Print usernames
+for user in users['Users']:
     print(user['UserName'])
-
