@@ -7,3 +7,11 @@ terraform {
     use_lockfile = true
   }
 }
+
+resource "aws_s3_bucket_versioning" "terraform_state" {
+  bucket = "my-terraform-state-bucket"
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
