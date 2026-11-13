@@ -12,7 +12,7 @@ response = s3.list_buckets()
 # Iterate through buckets
 for bucket in response['Buckets']:
 
-    bucket_name = bucket['Name']
+    bucket_name = bucket['Name']  # Extract bucket name
 
     # Check bucket versioning
     versioning = s3.get_bucket_versioning(
@@ -25,4 +25,3 @@ for bucket in response['Buckets']:
     print("Versioning Status:", status)
     print("-" * 40)
 
-    
