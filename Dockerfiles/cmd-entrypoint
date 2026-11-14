@@ -1,0 +1,10 @@
+# Nginx Dockerfile using both ENTRYPOINT and CMD.
+
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y nginx
+
+ENTRYPOINT ["nginx"]
+
+CMD ["-g", "daemon off;"]
+
