@@ -1,0 +1,14 @@
+# simple Nginx Dockerfile that ensures the container runs as a non-root user
+
+
+FROM nginx:alpine
+
+# Create a non-root user
+RUN adduser -D appuser
+
+# Switch to non-root user
+USER appuser
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
