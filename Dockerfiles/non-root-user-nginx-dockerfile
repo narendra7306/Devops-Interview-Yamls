@@ -1,7 +1,7 @@
 # simple Nginx Dockerfile that ensures the container runs as a non-root user
 
 
-FROM nginx:alpine
+FROM nginx:latest
 
 # Create a non-root user
 RUN adduser -D appuser
