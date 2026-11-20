@@ -3,8 +3,8 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-resource "aws_security_group" "web_sg" {
-  name        = "web-security-group"
+resource "aws_security_group" "demo_sg" {
+  name        = "demo-security-group"
   description = "Allow SSH, HTTP and HTTPS traffic"
   vpc_id      = "vpc-0123456789abcdef0"
 
@@ -13,7 +13,7 @@ resource "aws_security_group" "web_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["YOUR_PUBLIC_IP/32"]
+    cidr_blocks = ["MY_PUBLIC_IP/32"]
   }
 
   # Inbound HTTP
@@ -41,6 +41,6 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name = "web-security-group"
+    Name = "demo-security-group"
   }
 }
