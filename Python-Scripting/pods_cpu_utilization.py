@@ -1,4 +1,4 @@
-# you are managing multiple Kubernetes deployments, and your monitoring team 
+# you are managing multiple Kubernetes deployments and your monitoring team 
 # has provided a JSON file containing pod names and their respective CPU 
 # utilization percentages. Can you write a Python script that reads this JSON
 # file, identifies all pods whose CPU utilization is above 80%, and prints the
